@@ -25,6 +25,7 @@
 #define GPIO_MODE_OUTPUT 1
 #define GPIO_MODE_ALT 2
 #define GPIO_MODE_ANALOG 3
+// Mode for Interrupt Method
 #define GPIO_MODE_FALLING 4
 #define GPIO_MODE_RISING 5
 #define GPIO_MODE_RISING_FALLING 6
@@ -55,20 +56,25 @@ typedef struct {
 
 typedef struct {
 	GPIO_REG *pGPIOx;
-	GPIO_configuration_t *pGPIO_Confg;
+	GPIO_configuration_t pGPIO_Confg;
 } GPIO_handle_t;
 
+// Set up GPIO Clock
 void GPIO_ClockControl(GPIO_REG *pGPIOxReg, uint8_t enOrDis);
 
+// GPIO initialization
 void GPIO_Init(GPIO_handle_t *pGPIOHandle);
+// GPIO De-initialization
 void GPIO_DeInit(GPIO_REG *pGPIOxReg);
 
+// Read-Write Method
 uint8_t GPIO_ReadInputPin(GPIO_REG *pGPIOxReg, uint8_t pinNumber);
 uint16_t GPIO_ReadInputPort(GPIO_REG *pGPIOxReg);
 void GPIO_WriteOutputPin(GPIO_REG *pGPIOxReg, uint8_t pinNumber, uint8_t value);
 void GPIO_WriteOutputPort(GPIO_REG *pGPIOxReg, uint16_t value);
 void GPIO_ToggleOutputPin(GPIO_REG *pGPIOxReg, uint8_t pinNumber);
 
+// Interrupt
 void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t enOrDis);
 void GPIO_IRQHandling(uint8_t pinNumber);
 
