@@ -62,6 +62,25 @@ void GPIO_Init(GPIO_handle_t *pGPIOHandle) {
 
 	} else {
 		// Interrupt Mode
+		if (pGPIOHandle->pGPIO_Confg.GPIO_pinMode == GPIO_MODE_FALLING) {
+			EXTI->FTSR |= (1 << pGPIOHandle->pGPIO_Confg.GPIO_pinNumber);
+			EXTI->RTSR &= ~(1 << pGPIOHandle->pGPIO_Confg.GPIO_pinNumber);
+		} else if (pGPIOHandle->pGPIO_Confg.GPIO_pinMode == GPIO_MODE_RISING) {
+			EXTI->RTSR |= (1 << pGPIOHandle->pGPIO_Confg.GPIO_pinNumber);
+			EXTI->FTSR &= ~(1 << pGPIOHandle->pGPIO_Confg.GPIO_pinNumber);
+		} else if (pGPIOHandle->pGPIO_Confg.GPIO_pinMode
+				== GPIO_MODE_RISING_FALLING) {
+			EXTI->RTSR |= (1 << pGPIOHandle->pGPIO_Confg.GPIO_pinNumber);
+			EXTI->FTSR |= (1 << pGPIOHandle->pGPIO_Confg.GPIO_pinNumber);
+		}
+		// 2. Find out the PORT for the EXTIx
+		RCC_SYSCFG_EN();
+		uint8_t extiX = pGPIOHandle->pGPIO_Confg.GPIO_pinNumber / 4;
+		uint8_t posRegEXTIx = pGPIOHandle->pGPIO_Confg.GPIO_pinNumber % 4;
+		uint8_t portX = portXFunc(pGPIOHandle->pGPIOx);
+		SYSCONFG->EXTICR[extiX] = portX << (posRegEXTIx * 4);
+		// 3. ENABLE THE INTERRUPT OF GPIO PERIPHERAL
+		EXTI->IMR |= (1 << pGPIOHandle->pGPIO_Confg.GPIO_pinNumber);
 	}
 	// 2. Config Speed
 	temp = 0;
@@ -156,12 +175,40 @@ void GPIO_ToggleOutputPin(GPIO_REG *pGPIOxReg, uint8_t pinNumber) {
 	pGPIOxReg->ODR ^= (1 << pinNumber);
 }
 
-// Setup IRQ
-void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t enOrDis) {
+// Setup IRQ (ENABLE NVIC) (PROCESSOR SIDE)
+void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t enOrDis) {
+	if (enOrDis == ENABLE) {
+		if (IRQNumber <= 31) {
+			//ISER0
+			*NVIC_ISER0 |= (1 << IRQNumber);
+		} else if (IRQNumber > 31 && IRQNumber < 64) {
+			*NVIC_ISER1 |= (1 << (IRQNumber % 32));
+		} else if (IRQNumber >= 64 && IRQNumber < 96) {
+			*NVIC_ISER2 |= (1 << (IRQNumber % 64));
+		}
+	} else {
+		if (IRQNumber <= 31) {
+			//ISER0
+			*NVIC_ICER0 |= (1 << IRQNumber);
+		} else if (IRQNumber > 31 && IRQNumber < 64) {
+			*NVIC_ICER1 |= (1 << (IRQNumber % 32));
+		} else if (IRQNumber >= 64 && IRQNumber < 96) {
+			*NVIC_ICER2 |= (1 << (IRQNumber % 64));
+		}
+	}
+}
 
+// Config Priorty
+void GPIO_IRQPriorty(uint8_t IRQNumber, uint8_t priority) {
+	uint8_t iprx = IRQNumber / 4;
+	uint8_t iprxSection = IRQNumber % 4;
+	uint8_t shiftAmount = (8 * iprxSection) + (8 - NO_PR_BITS_IMPLEMENTED);
+	*( NVIC_PR_BASE_ADDR + iprx) |= (priority << shiftAmount);
 }
 
 // Handling IRQ
 void GPIO_IRQHandling(uint8_t pinNumber) {
-
+	if (EXTI->PR & (1 << pinNumber)) {
+		EXTI->PR |= (1 << pinNumber);
+	}
 }

@@ -19,15 +19,20 @@ int main() {
 
 	gpioBtn.pGPIOx = GPIOA;
 	gpioBtn.pGPIO_Confg.GPIO_pinNumber = GPIO_PIN_NB_0;
-	gpioBtn.pGPIO_Confg.GPIO_pinMode = GPIO_MODE_INPUT;
+	gpioBtn.pGPIO_Confg.GPIO_pinMode = GPIO_MODE_RISING;
 	gpioBtn.pGPIO_Confg.GPIO_pinSpeed = GPIO_SPEED_FAST;
 	gpioBtn.pGPIO_Confg.GPIO_pinPuPdControl = GPIO_NO_PUPD;
 	GPIO_ClockControl(GPIOA, ENABLE);
 	GPIO_Init(&gpioBtn);
+
+	GPIO_IRQPriorty(IRQ_NO_EXTI0, NVIC_IRQ_PRI15);
+	GPIO_IRQConfig(IRQ_NO_EXTI0, ENABLE);
 	while (1) {
-		if (GPIO_ReadInputPin(GPIOA, GPIO_PIN_NB_0)) {
-			delay();
-			GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_NB_12);
-		}
 	}
+}
+
+void EXTI0_IRQHandler(void) {
+	delay();
+	GPIO_IRQHandling(GPIO_PIN_NB_0);
+	GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_NB_12);
 }

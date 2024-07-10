@@ -1,5 +1,5 @@
-"./Src/002BUTTON_LED.o"
+"./Src/003Section2InterruptBtn.o"
 "./Src/syscalls.o"
 "./Src/sysmem.o"
 "./Startup/startup_stm32f407vgtx.o"
-"./driver/Src/stm32f407_gpiox.o"
+"./drivers/Src/stm32f407_gpiox.o"
