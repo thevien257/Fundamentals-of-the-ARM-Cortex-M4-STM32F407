@@ -9,17 +9,17 @@
 
 ## Table of contents 📂
 
-- [Introduction](#introduction-💡)
-- [Project Structure](#project-structure-🧮)
+- [Introduction](#introduction)
+- [Project Structure](#project-structure)
 - [Memory Map and Registers](#memory-map-and-registers)
 
-## Introduction 💡
+## Introduction
 
 📝 This guide explains the fundamentals and helps you to understand how the gpio, i2c, spi, uart, timer, interrupt, and other peripherals driver works on the STM32F4xx series . The driver is written in C language and is based on the STM32F4xx reference manual.
 
 📝 You can learn how to configure the STM32F4xx peripherals and how to use them to build your own embedded applications based on STM32F4xx series.
 
-## Project Structure 🧮
+## Project Structure
 
 |  Folder  |                                                                                                                                                              Description                                                                                                                                                               |
 | :------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
