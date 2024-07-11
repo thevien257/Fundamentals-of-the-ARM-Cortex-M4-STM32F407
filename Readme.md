@@ -56,3 +56,5 @@ you must write the value 0x01 to the GPIOA_MODER register:
   ``` -->
 
 - The image below will visualize the simple memory map of the STM32F4xx series:
+
+  UPDATE SOON!!!
