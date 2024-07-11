@@ -35,11 +35,11 @@
     <p align="center">
   <img src="images/ahb1Example-1.png"  width ="700"  />
 
-- Each <strong>peripherals</strong> has its own 32-bit <strong>registers</strong>. Each <strong>register</strong> is used to configure the <strong>peripheral</strong> and to control the <strong>peripheral</strong>. For example, the GPIOA peripheral has 32-bit <strong>registers</strong> like GPIOX_PUDR, GPIOx_IDR, GPIOX_ODR etc:
+- Each <strong>peripherals</strong> has its own <strong>registers</strong>. Each <strong>register</strong> is used to configure the <strong>peripheral</strong> and to control the <strong>peripheral</strong>. For example, the GPIOA peripheral has <strong>registers</strong> like GPIOX_PUDR, GPIOx_IDR, GPIOX_ODR etc:
   <p align="center">
   <img src="images/gpioRegistersExample-1.png"   width ="700"/>
 
-- In each <strong>register</strong> has 32-bit <strong>fields</strong>. Each <strong>field</strong> is used to configure the <strong>peripheral</strong> and to control the <strong>peripheral</strong>. For example, the GPIOx_PUDR register has 32-bit <strong>fields</strong> from 0 to 31, each <strong>field</strong> contains 2-bits, and each <strong>field</strong> is used to configure the <strong>pin</strong> of the <strong>GPIO</strong>, like PUDR0 is used to configure the <strong>pin 0 </strong>of the <strong>GPIO</strong>, PUDR1 is used to configure the <strong>pin 1</strong> of the <strong>GPIO</strong>, etc:
+- In each <strong>register</strong> has 32-bit <strong>fields</strong>. Each <strong>field</strong> is used to configure the <strong>peripheral</strong> and to control the <strong>peripheral</strong>. For example, the GPIOx_PUDR register has 32-bit <strong>fields</strong> from 0 to 31, each <strong>field</strong> contains 2-bits, and each is used to configure the <strong>pin</strong> of the <strong>GPIO</strong>, like PUDR0 is used to configure the <strong>pin 0 </strong>of the <strong>GPIO</strong>, PUDR1 is used to configure the <strong>pin 1</strong> of the <strong>GPIO</strong>, etc:
   <p align="center">
   <img src="images/examplePUPD-1.png"  width ="700"/>
 
